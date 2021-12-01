@@ -207,7 +207,6 @@ public class Board
         }
         return false; //otherwise return that the game can still go
     }
-
     public void up() //goes through with the w or the up arrow
     {
         for ( int i = 0; i < grid; i++ ) //basically ensures that this stays within the 4x4 grid
@@ -225,7 +224,6 @@ public class Board
             }
         }
     }
-
     public void down() //goes through with the s key or the down arrow
     {
         for ( int i = 0; i < grid; i++ )

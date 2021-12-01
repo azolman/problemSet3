@@ -105,8 +105,16 @@ public class Game extends JPanel implements KeyListener
         g2.drawString( "2048", 250, 20 ); //adding the text to the board
         g2.drawString("Score: " + game.getScore(),200 - 4 * String.valueOf(game.getScore()).length(),40); //updates as the player makes move to display score
         g2.drawString("Highest Tile: " + game.getHighTile(),280 - 4 * String.valueOf(game.getHighTile()).length(),40); //updates if there is a new max
+        //If statement that informs player that they have reached 2048, but can still continue.
+        if (game.getHighTile() >= 2048) {
+            g2.drawString("Congratulations!", 435, 90);
+            g2.drawString("You reached 2048!", 429, 110);
+            g2.drawString("Press 'Escape' to exit", 423, 130);
+            g2.drawString("Press 'Enter' to restart", 421, 150);
+            g2.drawString("Or, continue playing", 424, 170);
+        }
         g2.drawString( "Press 'Enter' to Start", 210, 315 );
-        g2.drawString( "Use 'wasd' or Arrow Keys to move", 180, 335 );
+        g2.drawString( "Use 'wasd' or Arrow Keys to move", 159, 335 );
         if (game.fullBoard()) //if every tile on the board is full, prompts the user to restart but does NOT end the game
         {
             g2.drawString( "Press 'Enter' to restart", 200, 355 );
@@ -131,8 +139,8 @@ public class Game extends JPanel implements KeyListener
                     g2.setColor(Color.RED); //fills in every square with red and writes game over on them
                     g2.fillRoundRect(j * 60 + 150, i * 60 + 60, 50, 50, 5, 5);
                     g2.setColor( Color.black );
-                    g1.drawString( "GAME", j * 60 + 155, i * 60 + 75 );
-                    g1.drawString( "OVER", j * 60 + 155, i * 60 + 95 );
+                    g1.drawString( "GAME", j * 60 + 157, i * 60 + 80 );
+                    g1.drawString( "OVER", j * 60 + 158, i * 60 + 100 );
                 }
             }
             g2.drawString( "Press 'Escape' to quit", 200, 375 ); //shows user how to exit if they don't wish to play longer
