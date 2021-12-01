@@ -10,18 +10,18 @@ public class Board
 {
     public Tile[][] board; //2D array for board
     int grid = 4; //used because it's a 4x4 grid
-    int border = 0; //used for customizing the board movementswhen moves are made
+    int border = 0; //used for customizing the board movements when moves are made
     public int score = 0; //starts score at 0, is accessed by other methods
 
 
     public Board()
     {
-        board = new Tile[4][4];
-        for ( int i = 0; i < board.length; i++ )
+        board = new Tile[4][4]; //creates a new 4x4 array
+        for ( int i = 0; i < board.length; i++ ) //runs through the rows and columns
         {
             for ( int j = 0; j < board[i].length; j++ )
             {
-                board[i][j] = new Tile();
+                board[i][j] = new Tile(); //populates the array
             }
         }
     }
@@ -244,10 +244,6 @@ public class Board
         }
     }
 
-    // compare the values of two tiles
-    // if the values of the tiles are the same or if the value of one of the tiles is
-    // equal to 0 (signifying a plain tile), then the values of the tiles are added
-    // moves the tiles in the appropriate direction (up or down)
     private void verticalMove( int row, int col, String direction ) //actually executes the up or down movement
     {
         Tile initial = board[border][col]; //figures out what column
@@ -259,7 +255,7 @@ public class Board
                 int addScore = initial.getValue() + compare.getValue();
                 if ( initial.getValue() != 0 )
                 {
-                    score += addScore;
+                    score += addScore; //updates score if the tiles have values
                 }
                 initial.setValue( addScore ); //changes the value of the initial box to double if one of the boxes is not zero
                 compare.setValue( 0 ); //gets rid of the other box once added
