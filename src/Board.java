@@ -13,7 +13,7 @@ public class Board
     int border = 0; //used for customizing the board movementswhen moves are made
     public int score = 0; //starts score at 0, is accessed by other methods
 
-
+    //here
     public Board()
     {
         board = new Tile[4][4];
