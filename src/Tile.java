@@ -1,90 +1,88 @@
 import java.awt.Color;
 
 /**
+ * @brief This class is used for associating the tile color with the tile value.  It uses getter and setter methods
+ * to allow that color and value to be used outside the class, as well as passing those values to the board
+ * so the board can be repainted with updated values when tiles are added
  *
- *
- *
+ * @Allison Tesh, @Hanna Vaidya, @Alexandra Zolman
  */
+
+//what is the get color function for at bottom
 
 public class Tile
 {
-    int value;
-    Color tileColor;
+    int value; //value on tile
+    Color tileColor; //color of tile
 
-// constructs a plain tile with a value of 0 while will function as the blank tiles
+
     public Tile()
     {
-        value = 0;
+        value = 0; // plain tile, no value
     }
 
-    // constructs a tile with a value of integer parameter number
     public Tile(int num)
     {
-        value = num;
+        value = num; //assigns a tile a value based on num
     }
 
-// getter method to return the tile's value
+
     public int getValue()
     {
-        return value;
+        return value; //allows value to be accessed outside of the class
     }
 
-    // setter method to set the tile's value
-    // used when adding two tiles together
     public void setValue( int value )
     {
-        this.value = value;
+        this.value = value; //sets new tile's value when tiles are added
     }
 
 
 // represents each tile as a string
     public String toString()
     {
-        return "" + value;
+        return "" + value; //allows that value to be messed with by converting it to a string
     }
 
-
-// setter method to assign each tile a color based on its value
-// different valued tiles are set to different colors
-    public void setColor()
+    public void setColor() //basically is a list of what color each value of tile should recieve, ranging from pink to blue as numbers increase
     {
-        if ( this.getValue() == 2 )
+        if (value == 2 ) //could also be written as this.getValue()
         {
-            tileColor = new Color( 238, 228, 238 );
+            tileColor = new Color( 238, 228, 238 ); //color starts as a baby pink for tiles with value 2
         }
-        else if ( this.getValue() == 4 )
+        else if (value == 4)
         {
             tileColor = new Color( 250, 224, 250 );
         }
-        else if ( this.getValue() == 8 )
+        else if (value == 8)
         {
             tileColor = new Color( 250, 190, 200 );
         }
-        else if ( this.getValue() == 16 )
+        else if (value == 16)
         {
             tileColor = new Color( 246, 160, 200 );
         }
-        else if ( this.getValue() == 32 )
+        else if (value == 32)
         {
             tileColor = new Color( 246, 124, 200 );
         }
-        else if ( this.getValue() == 64 )
+        else if (value == 64)
         {
             tileColor = new Color( 246, 0, 200 );
         }
-        else if ( this.getValue() == 128 )
+        else if (value == 128)
         {
-            tileColor = new Color( 120, 150, 250 );
+            tileColor = new Color(120, 150, 250);
         }
-        else if ( this.getValue() == 256 )
+        else if (value == 256 )
         {
             tileColor = new Color( 50, 120, 250 );
         }
-        else if ( this.getValue() == 512 )
+        else if (value == 512 )
         {
             tileColor = new Color( 20, 150, 250 );
         }
-        else if ( this.getValue() == 1024 )
+        else if (value == 1024 )
         {
             tileColor = new Color( 20, 200, 250 );
         }
@@ -94,8 +92,8 @@ public class Tile
         }
     }
 
-// getter method to return the tile's color
-    public Color getColor()
+
+    public Color getColor() //returns color
     {
         this.setColor();
         return tileColor;

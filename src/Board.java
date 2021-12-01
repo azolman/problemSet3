@@ -6,15 +6,14 @@ import java.util.Random;
  *
  */
 
-public class Board
+public class Board //what are grid and board for? got about halfway through this class
 {
-    public Tile[][] board;
+    public Tile[][] board; //2D array for board
     int grid = 4;
     int border = 0;
-    public int score = 0;
+    public int score = 0; //starts score at 0, is accessed by other methods
 
-    // default constructor for the board
-    // sets up a 4x4 matrix for the board
+
     public Board()
     {
         board = new Tile[4][4];
@@ -41,37 +40,34 @@ public class Board
         }
     }
 
- // getter method to return the board
-    public Tile[][] getBoard()
+    public Tile[][] getBoard() //is this needed?
     {
         return board;
     }
 
-    // getter method to return the score
-    public int getScore()
+    public int getScore() //gets score to put at the top
     {
         return score;
     }
 
-// getter method to return the highest-valued tile on the board
-    public int getHighTile()
+
+    public int getHighTile() //checks for a high tile to display at the top
     {
         int high = board[0][0].getValue();
         for ( int i = 0; i < board.length; i++ )
         {
             for ( int j = 0; j < board[i].length; j++ )
             {
-                if ( board[i][j].getValue() > high )
+                if ( board[i][j].getValue() > high ) //runs through entire 2x2 array and sees if the value of a tile is above the high
                 {
                     high = board[i][j].getValue();
                 }
             }
         }
-        return high;
+        return high; //returns the high, whether it has changed or not
     }
 
-    // returns the board as a string
-    public String toString()
+    public String toString() //?????
     {
         String s = "";
         for ( int i = 0; i < board.length; i++ )
@@ -85,77 +81,73 @@ public class Board
         return s;
     }
 
-// spawns a 2 or a 4 at an empty space in the board every time a turn is taken
+
     public void spawn()
     {
         boolean empty = true;
-        while (empty)
+        while (empty) //for empty spaces
         {
             Random rand = new Random();
             int row = rand.nextInt(4);
             int col = rand.nextInt(4);
             double x = rand.nextDouble();
 
-            if (board[row][col].getValue() == 0)
+            if (board[row][col].getValue() == 0) //in a random spot
             {
-                if ( x < 0.2 )
+                if ( x < 0.2 ) //if x is below this number, spawn a 4
                 {
                     board[row][col] = new Tile(4);
-                    empty = false;
                 }
-                else
+                else //spawns a 2
                 {
-                    board[row][col] = new Tile(2);
-                    empty = false;
+                    board[row][col] = new Tile(2); //higher chance a 2 is spawned than a 4
                 }
+                empty = false; //removes that space from being used
             }
 
         }
 
     }
 
-    // checks to see if every space on the board is taken
-    // if so, the board will give a suggestion to restart by pressing "Enter" to the player
-    public boolean fullBoard()
+    public boolean fullBoard() //checks if all spaces on the board are filled
     {
         int count = 0;
         for ( int i = 0; i < board.length; i++ )
         {
             for ( int j = 0; j < board[i].length; j++ )
             {
-                if ( board[i][j].getValue() > 0 )
+                if ( board[i][j].getValue() > 0 ) //looks through every tile and if the value is above 2, increase the count
                 {
                     count++;
                 }
             }
         }
-        if ( count == 16 )
+        if ( count == 16 ) //when the count is this number, return that the board is full
         {
             return true;
         }
-        return false;
+        return false; //if the count does not reach 16, return that the board is not full
     }
 
-    // checks to see if the game is over by checking to see if all tiles can combine with the
-    // tiles next to it (if not, game is over)
-    public boolean gameOver()
+
+    public boolean gameOver() //game ends when no combinations can be made anymore (i.e. tile cannot combine with neighboring tile)
     {
         int count = 0;
         for ( int i = 0; i < board.length; i++ )
         {
             for ( int j = 0; j < board[i].length; j++ )
             {
-                if ( board[i][j].getValue() > 0 )
+                if ( board[i][j].getValue() > 0 ) //for all spaces, if there is a tile there...
                 {
-                    if ( i == 0 && j == 0 )
+                    if ( i == 0 && j == 0 ) //basically this runs through all the tile locations (in this case at (0,0))  and checks if the values can be added together
                     {
-                        if ( board[i][j].getValue() != board[i + 1][j].getValue()
-                                && board[i][j].getValue() != board[i][j + 1].getValue() )
+                        if ( board[i][j].getValue() != board[i + 1][j].getValue() //checks the value one to the right
+                                && board[i][j].getValue() != board[i][j + 1].getValue() ) //checks the value one down
                         {
-                            count++;
+                            count++; //if values are not the same (i.e. cannot be added) increase the count
                         }
                     }
-                    else if ( i == 0 && j == 3 )
+                    else if ( i == 0 && j == 3 ) //this is the same as above, but specific to space (0,3)
                     {
                         if ( board[i][j].getValue() != board[i + 1][j].getValue()
                                 && board[i][j].getValue() != board[i][j - 1].getValue() )
@@ -163,7 +155,7 @@ public class Board
                             count++;
                         }
                     }
-                    else if ( i == 3 && j == 3 )
+                    else if ( i == 3 && j == 3 ) //see above
                     {
                         if ( board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i][j - 1].getValue() )
@@ -171,7 +163,7 @@ public class Board
                             count++;
                         }
                     }
-                    else if ( i == 3 && j == 0 )
+                    else if ( i == 3 && j == 0 ) //see above
                     {
                         if ( board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i][j + 1].getValue() )
@@ -179,25 +171,25 @@ public class Board
                             count++;
                         }
                     }
-                    else if ( i == 0 && ( j == 1 || j == 2 ) )
+                    else if ( i == 0 && ( j == 1 || j == 2 ) ) //because the tiles you look at are teh same whether j is 1 or j is 2, they can be combined
                     {
-                        if ( board[i][j].getValue() != board[i + 1][j].getValue()
+                        if ( board[i][j].getValue() != board[i + 1][j].getValue() //checks row the right
+                                && board[i][j].getValue() != board[i][j + 1].getValue() //checks column to the right
+                                && board[i][j].getValue() != board[i][j - 1].getValue() ) //checks column to the left
+                        {
+                            count++;
+                        }
+                    }
+                    else if ( i == 3 && ( j == 1 || j == 2 ) ) //see above
+                    {
+                        if ( board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i][j + 1].getValue()
                                 && board[i][j].getValue() != board[i][j - 1].getValue() )
                         {
                             count++;
                         }
                     }
-                    else if ( i == 3 && ( j == 1 || j == 2 ) )
-                    {
-                        if ( board[i][j].getValue() != board[i - 1][j].getValue()
-                                && board[i][j].getValue() != board[i][j + 1].getValue()
-                                && board[i][j].getValue() != board[i][j - 1].getValue() )
-                        {
-                            count++;
-                        }
-                    }
-                    else if ( j == 0 && ( i == 1 || i == 2 ) )
+                    else if ( j == 0 && ( i == 1 || i == 2 ) ) //see above
                     {
                         if ( board[i][j].getValue() != board[i][j + 1].getValue()
                                 && board[i][j].getValue() != board[i - 1][j].getValue()
@@ -206,7 +198,7 @@ public class Board
                             count++;
                         }
                     }
-                    else if ( j == 3 && ( i == 1 || i == 2 ) )
+                    else if ( j == 3 && ( i == 1 || i == 2 ) ) //see above
                     {
                         if ( board[i][j].getValue() != board[i][j - 1].getValue()
                                 && board[i][j].getValue() != board[i - 1][j].getValue()
@@ -228,38 +220,32 @@ public class Board
                 }
             }
         }
-        if (count == 16)
+        if (count == 16) //if the count is 16 (meaning that no tile is next to a tile of the same number), return that the game is over
         {
             return true;
         }
-        return false;
+        return false; //otherwise return that the game can still go
     }
 
-    // called when a "w" or the up arrow is pressed on the keyboard
-    // goes through the entire board and calls the verticalMove method with an
-    // "up" parameter for each tile
-    public void up()
+    public void up() //goes through with the w or the up arrow
     {
-        for ( int i = 0; i < grid; i++ )
+        for ( int i = 0; i < grid; i++ ) //basically ensures that this stays within the 3x3 grid
         {
-            border = 0;
+            border = 0; //???
             for ( int j = 0; j < grid; j++ )
             {
-                if ( board[j][i].getValue() != 0 )
+                if ( board[j][i].getValue() != 0 ) //for all filled tiles
                 {
                     if ( border <= j )
                     {
-                        verticalMove( j, i, "up" );
+                        verticalMove( j, i, "up" ); //uses the vertical move method to move every tile with a value up one space
                     }
                 }
             }
         }
     }
 
-    // called when an "s" or the down arrow is pressed on the keyboard
-    // goes through the entire board and calls the verticalMove method with a "down"
-    // parameter for each tile
-    public void down()
+    public void down() //goes through with the s key or the down arrow
     {
         for ( int i = 0; i < grid; i++ )
         {
@@ -268,9 +254,9 @@ public class Board
             {
                 if ( board[j][i].getValue() != 0 )
                 {
-                    if ( border >= j )
+                    if ( border >= j ) //why does this swap the row and column ??
                     {
-                        verticalMove( j, i, "down" );
+                        verticalMove( j, i, "down" ); //moves everything down
                     }
                 }
             }
