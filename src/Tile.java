@@ -29,7 +29,7 @@ public class Tile
 
     public int getValue()
     {
-        return value; //allows value to be accessed outside of the class
+        return value; //allows value to be accessed outside the class
     }
 
     public void setValue( int value )

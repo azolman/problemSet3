@@ -6,11 +6,11 @@ import java.util.Random;
  *
  */
 
-public class Board //what are grid and board for? got about halfway through this class
+public class Board
 {
     public Tile[][] board; //2D array for board
-    int grid = 4;
-    int border = 0;
+    int grid = 4; //used because it's a 4x4 grid
+    int border = 0; //used for customizing the board movementswhen moves are made
     public int score = 0; //starts score at 0, is accessed by other methods
 
 
@@ -24,25 +24,6 @@ public class Board //what are grid and board for? got about halfway through this
                 board[i][j] = new Tile();
             }
         }
-    }
-
-    // *for testing*, this method sets up a board where player has already lost
-    public Board( int lose, int grid )
-    {
-        this.grid = grid;
-        board = new Tile[grid][grid];
-        for ( int i = 0; i < board.length; i++ )
-        {
-            for ( int j = 0; j < board[i].length; j++ )
-            {
-                board[i][j] = new Tile( ( lose + i + j ) * ( i + j ) );
-            }
-        }
-    }
-
-    public Tile[][] getBoard() //is this needed?
-    {
-        return board;
     }
 
     public int getScore() //gets score to put at the top
@@ -67,22 +48,22 @@ public class Board //what are grid and board for? got about halfway through this
         return high; //returns the high, whether it has changed or not
     }
 
-    public String toString() //?????
+    public String toString()
     {
         String s = "";
         for ( int i = 0; i < board.length; i++ )
         {
             for ( int j = 0; j < board[i].length; j++ )
             {
-                s += board[i][j].toString() + " ";
+                s += board[i][j].toString() + " "; //takes an empty string, gets the value written on the tile for all tiles
             }
-            s += "\n";
+            s += "\n"; //allows the value to be accessed as a string
         }
-        return s;
+        return s; //returns the value
     }
 
 
-    public void spawn()
+    public void spawn() //adds new tile
     {
         boolean empty = true;
         while (empty) //for empty spaces
@@ -229,14 +210,14 @@ public class Board //what are grid and board for? got about halfway through this
 
     public void up() //goes through with the w or the up arrow
     {
-        for ( int i = 0; i < grid; i++ ) //basically ensures that this stays within the 3x3 grid
+        for ( int i = 0; i < grid; i++ ) //basically ensures that this stays within the 4x4 grid
         {
-            border = 0; //???
+            border = 0; //makes sure that the top row doesn't move (doesn't run the first iteration of the loop)
             for ( int j = 0; j < grid; j++ )
             {
                 if ( board[j][i].getValue() != 0 ) //for all filled tiles
                 {
-                    if ( border <= j )
+                    if ( border <= j ) //for all rows not at the top
                     {
                         verticalMove( j, i, "up" ); //uses the vertical move method to move every tile with a value up one space
                     }
@@ -249,10 +230,10 @@ public class Board //what are grid and board for? got about halfway through this
     {
         for ( int i = 0; i < grid; i++ )
         {
-            border = ( grid - 1 );
+            border = ( grid - 1 ); //customizes method for moving everything down (makes sure the bottom row doesn't move down)
             for ( int j = grid - 1; j >= 0; j-- )
             {
-                if ( board[j][i].getValue() != 0 )
+                if ( board[j][i].getValue() != 0 ) //for all nonempty tiles
                 {
                     if ( border >= j ) //why does this swap the row and column ??
                     {
@@ -267,11 +248,11 @@ public class Board //what are grid and board for? got about halfway through this
     // if the values of the tiles are the same or if the value of one of the tiles is
     // equal to 0 (signifying a plain tile), then the values of the tiles are added
     // moves the tiles in the appropriate direction (up or down)
-    private void verticalMove( int row, int col, String direction )
+    private void verticalMove( int row, int col, String direction ) //actually executes the up or down movement
     {
-        Tile initial = board[border][col];
-        Tile compare = board[row][col];
-        if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() )
+        Tile initial = board[border][col]; //figures out what column
+        Tile compare = board[row][col]; //compares to another space on the board
+        if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() ) //only runs if one of the tiles is 0 or if they are the same value
         {
             if ( row > border || ( direction.equals( "down" ) && ( row < border ) ) )
             {
@@ -280,13 +261,13 @@ public class Board //what are grid and board for? got about halfway through this
                 {
                     score += addScore;
                 }
-                initial.setValue( addScore );
-                compare.setValue( 0 );
+                initial.setValue( addScore ); //changes the value of the initial box to double if one of the boxes is not zero
+                compare.setValue( 0 ); //gets rid of the other box once added
             }
         }
         else
         {
-            if (direction.equals( "down" ) )
+            if (direction.equals( "down" ) ) //if they are not equal or one is not zero, simply move everything down
             {
                 border--;
             }

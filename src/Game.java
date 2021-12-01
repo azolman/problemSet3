@@ -142,7 +142,7 @@ public class Game extends JPanel implements KeyListener
     public void drawTiles( Graphics g, Tile tile, int x, int y ) //for actually drawing the tiles, takes in a graphics and tiles object, as well as a coordinate
     {
         int tileValue = tile.getValue(); //gets the number on the tile
-        int length = String.valueOf( tileValue ).length(); //I DONT KNOW WHAT THIS DOES
+        int length = String.valueOf( tileValue ).length(); //finds the number of characters on a tile square
         Graphics2D g2 = (Graphics2D)g;
         g2.setColor( Color.lightGray );
         g2.fillRoundRect( x, y, 50, 50, 5, 5 ); //round rectangle, which is the tile
@@ -151,7 +151,7 @@ public class Game extends JPanel implements KeyListener
             g2.setColor( tile.getColor() ); //sets rectangle color, which is based on value
             g2.fillRoundRect( x, y, 50, 50, 5, 5 ); //draws tile with color
             g2.setColor( Color.black ); //changes to black for writing value
-            g.drawString( "" + tileValue, x + 24 - 3 * length, y + 29 ); //writes on the tile, values are slightly off from the middle to make it look better
+            g.drawString( "" + tileValue, x + 24 - 3 * length, y + 29 ); //writes on the tile, values are slightly off but take in length to try to even it out
         }
     }
 }
