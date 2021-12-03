@@ -166,7 +166,7 @@ public class Game extends JPanel implements KeyListener
      * @param g is the Graphics object needed to draw the tiles
      * @param tile represents the characteristics of the tiles being drawn
      * @param x is the x-coordinate where the tile will be drawn
-     * @param y is the y-coordiate whwre the tile will be drawn
+     * @param y is the y-coordinate where the tile will be drawn
      */
     public void drawTiles( Graphics g, Tile tile, int x, int y )
     {
