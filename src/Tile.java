@@ -87,7 +87,7 @@ public class Tile
     }
 
 
-    public Color getColor() //returns color
+    public Color getColor() // returns color
     {
         this.setColor();
         return tileColor;
