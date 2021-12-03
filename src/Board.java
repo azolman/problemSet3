@@ -88,7 +88,7 @@ public class Board
                 }
             }
         }
-        if ( count == 16 ) //when the count is this number, return that the board is full
+        if (count == 16) //when the count is this number, return that the board is full
         {
             return true;
         }
@@ -297,7 +297,6 @@ public class Board
             leftRightMove( row, column, direction );
         }
     }
-
 
     private void upDownMove( int row, int column, String direction ) //actually executes the up or down movement
     {

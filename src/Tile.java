@@ -26,7 +26,6 @@ public class Tile
         value = num; //assigns a tile a value based on num
     }
 
-
     public int getValue()
     {
         return value; //allows value to be accessed outside the class
@@ -40,49 +39,50 @@ public class Tile
 
     public void setColor() //basically is a list of what color each value of tile should recieve, ranging from pink to blue as numbers increase
     {
-        if (value == 2 ) //could also be written as this.getValue()
+        if (value == 2 )
         {
             tileColor = new Color( 238, 228, 238 ); //color starts as a baby pink for tiles with value 2
         }
+
         else if (value == 4)
         {
-            tileColor = new Color( 250, 224, 250 );
+            tileColor = new Color( 250, 224, 250 ); // slightly darker pink
         }
         else if (value == 8)
         {
-            tileColor = new Color( 250, 190, 200 );
+            tileColor = new Color( 250, 190, 200 ); // light pink
         }
         else if (value == 16)
         {
-            tileColor = new Color( 246, 160, 200 );
+            tileColor = new Color( 246, 160, 200 ); // regular pink
         }
         else if (value == 32)
         {
-            tileColor = new Color( 246, 124, 200 );
+            tileColor = new Color( 246, 124, 200 ); // hot pink
         }
         else if (value == 64)
         {
-            tileColor = new Color( 246, 0, 200 );
+            tileColor = new Color( 246, 0, 200 ); // magenta
         }
         else if (value == 128)
         {
-            tileColor = new Color(120, 150, 250);
+            tileColor = new Color(120, 150, 250); // violet
         }
         else if (value == 256 )
         {
-            tileColor = new Color( 50, 120, 250 );
+            tileColor = new Color( 50, 120, 250 ); // indigo
         }
         else if (value == 512 )
         {
-            tileColor = new Color( 20, 150, 250 );
+            tileColor = new Color( 20, 150, 250 ); // blue
         }
         else if (value == 1024 )
         {
-            tileColor = new Color( 20, 200, 250 );
+            tileColor = new Color( 20, 200, 250 ); // turquoise
         }
         else
         {
-            tileColor = new Color( 20, 250, 250 );
+            tileColor = new Color( 20, 250, 250 ); // lighter turquoise
         }
     }
 
