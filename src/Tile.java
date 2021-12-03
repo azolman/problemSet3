@@ -8,8 +8,6 @@ import java.awt.Color;
  * @Allison Tesh, @Hanna Vaidya, @Alexandra Zolman
  */
 
-//what is the get color function for at bottom
-
 public class Tile
 {
     int value; //value on tile
@@ -120,7 +118,7 @@ public class Tile
      * @return tileColor helps display tile color
      *
      */
-    public Color getColor() // returns color
+    public Color getColor()
     {
         this.setColor();
         return tileColor;
