@@ -1,9 +1,10 @@
 import java.util.Random;
 
 /**
- *
- *
- *
+ * @brief This file controls the movement of the board (i.e. up, down, left, right/ horizontal and down),
+ * as well as containing the methods that get the score, high tiles, create new tiles, and check
+ * the state of anything on the board.
+ * @Alexandra Zolman, @Allison Tesh, @Hanna Vaidya
  */
 
 public class Board
@@ -233,7 +234,7 @@ public class Board
             {
                 if ( board[j][i].getValue() != 0 ) //for all nonempty tiles
                 {
-                    if ( border >= j ) //why does this swap the row and column ??
+                    if ( border >= j )
                     {
                         verticalMove( j, i, "down" ); //moves everything down
                     }
@@ -273,33 +274,27 @@ public class Board
         }
     }
 
-    // called when an "a" or the left arrow is pressed on the keyboard
-    // goes through the entire board and calls the horizontalMove method with a
-    // "left" parameter for each tile
-    public void left()
+    public void left() // called when an "a" or the left arrow is pressed on the keyboard
     {
         for ( int i = 0; i < grid; i++ )
         {
             border = 0;
-            for ( int j = 0; j < grid; j++ )
+            for ( int j = 0; j < grid; j++ ) //runs through entire board and shifts all nonzero tiles left
             {
                 if ( board[i][j].getValue() != 0 )
                 {
                     if ( border <= j )
                     {
-                        horizontalMove( i, j, "left" );
+                        horizontalMove( i, j, "left" ); //horizontal move function, input = left
                     }
                 }
             }
         }
     }
 
-    // called when a "d" or the right arrow is pressed on the keyboard
-    // goes through the entire board and calls the horizontalMove method with
-    // a "right" parameter for each tile
-    public void right()
+    public void right()  // called when a "d" or the right arrow is pressed on the keyboard
     {
-        for ( int i = 0; i < grid; i++ )
+        for ( int i = 0; i < grid; i++ ) //runs the same way as the left method, but shifts nonzero tiles to the right instead
         {
             border = ( grid - 1 );
             for ( int j = ( grid - 1 ); j >= 0; j-- )
@@ -320,24 +315,24 @@ public class Board
     // if the values of the tiles are the same or if the value of one of the tiles is
     // equal to 0 (signifying a plain tile), then the values of the tiles are added
     // moves the tiles in the appropriate direction (left or right)
-    private void horizontalMove( int row, int col, String direction )
+    private void horizontalMove( int row, int col, String direction ) //takes in location and direction of shift
     {
         Tile initial = board[row][border];
         Tile compare = board[row][col];
-        if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() )
+        if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() ) //if the initial tile is a zero or is the same as the one it is compared to
         {
             if ( col > border || ( direction.equals( "right" ) && ( col < border ) ) )
             {
                 int addScore = initial.getValue() + compare.getValue();
                 if ( initial.getValue() != 0 )
                 {
-                    score += addScore;
+                    score += addScore; //add scores
                 }
                 initial.setValue( addScore );
-                compare.setValue( 0 );
+                compare.setValue( 0 ); //essentially gets rid of the other tile
             }
         }
-        else
+        else //if they are not equal or one is not zero, simply move everything down
         {
             if ( direction.equals( "right" ) )
             {
