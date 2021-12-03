@@ -14,6 +14,10 @@ public class Board
     int sides = 0; //used for customizing the board movements when moves are made, used to make sure the tiles never move out of the array
     public int totalScore = 0; //starts score at 0, is accessed by other methods
 
+    /**
+     * Board() creates the board array and iterates through the array when called
+     *
+     */
     public Board()
     {
         board = new Tile[4][4]; //creates a new 4x4 array
@@ -26,11 +30,21 @@ public class Board
         }
     }
 
-    public int getScore() //gets score to put at the top
+    /**
+     * getScore() is a getter method to get the total score value
+     *
+     * @return int totalScore so that it may be displayed at the top of the screen
+     */
+    public int getScore()
     {
         return totalScore;
     }
 
+    /**
+     * getHighTile() is a getter method to get the value of the highest tile in the board at the time of calling
+     *
+     * @return int highTile so that the value of the highest tile may be displayed at the top of the screen
+     */
     public int getHighTile() //checks for a high tile to display at the top
     {
         int highTile = board[0][0].getValue();
@@ -47,7 +61,12 @@ public class Board
         return highTile; //returns the high, whether it has changed or not
     }
 
-    public void addTile() //adds new tile
+    /**
+     * addTile() adds a new tile to the board every time a turn is taken
+     * the tile is either a 2 or a 4 (generated randomly) and is placed in a random empty space on the board
+     *
+     */
+    public void addTile()
     {
         boolean empty = true;
         while (empty) //for empty spaces
@@ -75,28 +94,41 @@ public class Board
 
     }
 
-    public boolean fullBoard() //checks if all spaces on the board are filled
+    /**
+     * fullBoard() checks if all the spaces on the board have been filled
+     *
+     * @return true if all the spaces have been taken up, will then either display the nudge to
+     * restart the game or show GAME OVER
+     * @return false if there are still empty spaces on the board
+     */
+    public boolean fullBoard()
     {
-        int count = 0;
+        int tileCount = 0;
         for ( int i = 0; i < board.length; i++ )
         {
             for ( int j = 0; j < board[i].length; j++ )
             {
                 if ( board[i][j].getValue() > 0 ) //looks through every tile and if the value is above 2, increase the count
                 {
-                    count++;
+                    tileCount++;
                 }
             }
         }
-        if (count == 16) //when the count is this number, return that the board is full
+        if (tileCount == 16) //when the count is this number, return that the board is full
         {
             return true;
         }
         return false; //if the count does not reach 16, return that the board is not full
     }
 
-
-    public boolean gameOver() //game ends when no combinations can be made anymore (i.e. tile cannot combine with neighboring tile)
+    /**
+     * gameOver() ends the game when no combinations can be made anymore (i.e. tile cannot combine
+     * with the neighboring tile)
+     *
+     * @return true if none of the neighboring tiles can combine
+     * @return false if the game can still go on and moves can still be made
+     */
+    public boolean gameOver()
     {
         int tileCount = 0;
         for ( int i = 0; i < board.length; i++ )
@@ -192,6 +224,13 @@ public class Board
         }
         return false; //otherwise return that the game can still go
     }
+
+    /**
+     * up() calls the upDownMove method if the tiles are actually able to move up (by combining, or if
+     * there is an empty space)
+     * if the tiles cannot move up, it will not call the method
+     *
+     */
     public void up() //goes through with the w or the up arrow
     {
         for ( int i = 0; i < gameGrid; i++ ) //basically ensures that this stays within the 4x4 grid
@@ -209,6 +248,13 @@ public class Board
             }
         }
     }
+
+    /**
+     * down() calls the upDownMove method if the tiles are actually able to move down (by combining, or if
+     * there is an empty space)
+     * if the tiles cannot move down, it will not call the method
+     *
+     */
     public void down() //goes through with the s key or the down arrow
     {
         for ( int i = 0; i < gameGrid; i++ )
@@ -226,7 +272,12 @@ public class Board
             }
         }
     }
-
+    /**
+     * left() calls the leftRightMove method if the tiles are actually able to move left (by combining, or if
+     * there is an empty space)
+     * if the tiles cannot move left, it will not call the method
+     *
+     */
     public void left() // called when an "a" or the left arrow is pressed on the keyboard
     {
         for ( int i = 0; i < gameGrid; i++ )
@@ -245,6 +296,12 @@ public class Board
         }
     }
 
+    /**
+     * right() calls the leftRightMove method if the tiles are actually able to move right (by combining, or if
+     * there is an empty space)
+     * if the tiles cannot move right, it will not call the method
+     *
+     */
     public void right()  // called when a "d" or the right arrow is pressed on the keyboard
     {
         for ( int i = 0; i < gameGrid; i++ ) //runs the same way as the left method, but shifts nonzero tiles to the right instead
@@ -262,12 +319,21 @@ public class Board
             }
         }
     }
-
-    // compare the values of two tiles
-    // if the values of the tiles are the same or if the value of one of the tiles is
-    // equal to 0 (signifying a plain tile), then the values of the tiles are added
-    // moves the tiles in the appropriate direction (left or right)
-    private void leftRightMove( int row, int column, String direction ) //takes in location and direction of shift
+    /**
+     * leftRightMove() compares the values of two tiles
+     *
+     *
+     * if the values of the tiles are the same or if the value of one of the tiles is
+     * equal to 0 (signifying a plain tile), then the values of the tiles are added
+     *
+     * moves the tiles in the appropriate direction (left or right)
+     *
+     * @param row takes in the row location of the tile
+     * @param column takes in the column location of the tile
+     * @param direction takes in what direction the tile is supposed to shift
+     *
+     */
+    private void leftRightMove( int row, int column, String direction )
     {
         Tile initial = board[row][sides];
         Tile compare = board[row][column];
@@ -298,7 +364,21 @@ public class Board
         }
     }
 
-    private void upDownMove( int row, int column, String direction ) //actually executes the up or down movement
+    /**
+     * upDowntMove() compares the values of two tiles
+     *
+     *
+     * if the values of the tiles are the same or if the value of one of the tiles is
+     * equal to 0 (signifying a plain tile), then the values of the tiles are added
+     *
+     * moves the tiles in the appropriate direction (up or down)
+     *
+     * @param row takes in the row location of the tile
+     * @param column takes in the column location of the tile
+     * @param direction takes in what direction the tile is supposed to shift
+     *
+     */
+    private void upDownMove( int row, int column, String direction )
     {
         Tile initial = board[sides][column]; //figures out what column
         Tile compare = board[row][column]; //compares to another space on the board

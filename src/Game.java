@@ -16,7 +16,6 @@ import javax.swing.JPanel;
  */
 
 
-// check length variable for creating tiles
 public class Game extends JPanel implements KeyListener
 {
     // main method: starts the whole game
@@ -29,8 +28,9 @@ public class Game extends JPanel implements KeyListener
     // JFrame is needed to create the canvas without using stdDraw
     static JFrame frame = new JFrame( "2048" );
 
-    // sets up the graphics
-    // sets up the key listener
+    /**
+     * setUp() sets up the graphics and the key listener
+     */
     public static void setUp()
     {
         frame.addKeyListener( newGame );
@@ -40,7 +40,11 @@ public class Game extends JPanel implements KeyListener
         frame.setResizable( false ); //prevents user from changing size of canvas
     }
 
-// checks to see what keys are pressed
+    /**
+     * keyPressed() checks to see what keys are pressed
+     *
+     * @param user represents the key that the user presses
+     */
     public void keyPressed( KeyEvent user )
     {
         if ( user.getKeyChar() == 'w' || user.getKeyCode() == KeyEvent.VK_UP ) //if w or up is pressed
@@ -79,20 +83,34 @@ public class Game extends JPanel implements KeyListener
         }
     }
 
-    // method for the key listener to run correctly
+    /**
+     * keyReleased() is needed for the key listener to run correctly
+     *
+     * @param user represents the key that the user presses
+     */
     @Override
   public void keyReleased( KeyEvent user ) //checks if the key has been released
    {
          // method needed, but no additional code needed
    }
 
-    // method for the key listener to run correctly
+    /**
+     * keyTyped() is needed for the key listener to run correctly
+     *
+     * @param user represents the key that the user presses
+     */
     @Override
    public void keyTyped( KeyEvent user ) //checks whether a key has been pressed
    {
         // method needed, but no additional code needed
    }
 
+    /**
+     * paint() draws the entire board
+     * this was the base code for the project, but we also added some things to this
+     *
+     * @param g1 is the Graphics object needed to draw everything
+     */
     public void paint(Graphics g1) //takes in a graphics object g1
     {
         super.paint(g1); //super references the parent class
@@ -142,7 +160,15 @@ public class Game extends JPanel implements KeyListener
         }
     }
 
-    public void drawTiles( Graphics g, Tile tile, int x, int y ) //for actually drawing the tiles, takes in a graphics and tiles object, as well as a coordinate
+    /**
+     * drawTiles() draws each individual tile
+     *
+     * @param g is the Graphics object needed to draw the tiles
+     * @param tile represents the characteristics of the tiles being drawn
+     * @param x is the x-coordinate where the tile will be drawn
+     * @param y is the y-coordiate whwre the tile will be drawn
+     */
+    public void drawTiles( Graphics g, Tile tile, int x, int y )
     {
         int tileValue = tile.getValue(); //gets the number on the tile
         int length = String.valueOf( tileValue ).length(); //finds the number of characters on a tile square

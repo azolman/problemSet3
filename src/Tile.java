@@ -16,28 +16,56 @@ public class Tile
     Color tileColor; //color of tile
 
 
+    /**
+     * Tile() creates the blank tiles that set the basis for the entire board
+     * if Tile() is called with no parameters, this is the method that is called
+     *
+     */
     public Tile()
     {
         value = 0; // plain tile, no value
     }
 
+    /**
+     * Tile() assigns a value to the tile
+     * if Tile() is called with one integer parameter, this is the method that is called
+     *
+     * @param num is the value assigned to the tile
+     *
+     */
     public Tile(int num)
     {
-        value = num; //assigns a tile a value based on num
+        value = num;
     }
 
+    /**
+     * getValue() allows the value of the tile to be accessed outside the class
+     *
+     * @return int is the tile value
+     *
+     */
     public int getValue()
     {
-        return value; //allows value to be accessed outside the class
+        return value;
     }
 
+    /**
+     * setValue() sets tile value
+     *
+     * @param value is the tile value that should be set (whether added or staying the same)
+     *
+     */
     public void setValue( int value )
     {
-        this.value = value; //sets new tile's value when tiles are added
+        this.value = value;
     }
 
-
-    public void setColor() //basically is a list of what color each value of tile should recieve, ranging from pink to blue as numbers increase
+    /**
+     * setColor() basically is a list of what color each value of tile should receive, ranging from
+     * baby pink to light turquoise as numbers increase
+     *
+     */
+    public void setColor()
     {
         if (value == 2 )
         {
@@ -86,7 +114,12 @@ public class Tile
         }
     }
 
-
+    /**
+     * getColor() allows the color to be visible on the board
+     *
+     * @return tileColor helps display tile color
+     *
+     */
     public Color getColor() // returns color
     {
         this.setColor();
