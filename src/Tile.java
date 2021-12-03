@@ -38,12 +38,6 @@ public class Tile
     }
 
 
-// represents each tile as a string
-    public String toString()
-    {
-        return "" + value; //allows that value to be messed with by converting it to a string
-    }
-
     public void setColor() //basically is a list of what color each value of tile should recieve, ranging from pink to blue as numbers increase
     {
         if (value == 2 ) //could also be written as this.getValue()

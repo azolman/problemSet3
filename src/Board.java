@@ -10,10 +10,9 @@ import java.util.Random;
 public class Board
 {
     public Tile[][] board; //2D array for board
-    int grid = 4; //used because it's a 4x4 grid
-    int border = 0; //used for customizing the board movements when moves are made
-    public int score = 0; //starts score at 0, is accessed by other methods
-
+    int gameGrid = 4; //used because it's a 4x4 grid
+    int sides = 0; //used for customizing the board movements when moves are made, used to make sure the tiles never move out of the array
+    public int totalScore = 0; //starts score at 0, is accessed by other methods
 
     public Board()
     {
@@ -29,42 +28,26 @@ public class Board
 
     public int getScore() //gets score to put at the top
     {
-        return score;
+        return totalScore;
     }
-
 
     public int getHighTile() //checks for a high tile to display at the top
     {
-        int high = board[0][0].getValue();
+        int highTile = board[0][0].getValue();
         for ( int i = 0; i < board.length; i++ )
         {
             for ( int j = 0; j < board[i].length; j++ )
             {
-                if ( board[i][j].getValue() > high ) //runs through entire 2x2 array and sees if the value of a tile is above the high
+                if ( board[i][j].getValue() > highTile ) //runs through entire 2x2 array and sees if the value of a tile is above the high
                 {
-                    high = board[i][j].getValue();
+                    highTile = board[i][j].getValue();
                 }
             }
         }
-        return high; //returns the high, whether it has changed or not
+        return highTile; //returns the high, whether it has changed or not
     }
 
-    public String toString()
-    {
-        String s = "";
-        for ( int i = 0; i < board.length; i++ )
-        {
-            for ( int j = 0; j < board[i].length; j++ )
-            {
-                s += board[i][j].toString() + " "; //takes an empty string, gets the value written on the tile for all tiles
-            }
-            s += "\n"; //allows the value to be accessed as a string
-        }
-        return s; //returns the value
-    }
-
-
-    public void spawn() //adds new tile
+    public void addTile() //adds new tile
     {
         boolean empty = true;
         while (empty) //for empty spaces
@@ -74,6 +57,7 @@ public class Board
             int col = rand.nextInt(4);
             double x = rand.nextDouble();
 
+            // randomly adds a 2 or 4 in a random space that has not been filled
             if (board[row][col].getValue() == 0) //in a random spot
             {
                 if ( x < 0.2 ) //if x is below this number, spawn a 4
@@ -114,7 +98,7 @@ public class Board
 
     public boolean gameOver() //game ends when no combinations can be made anymore (i.e. tile cannot combine with neighboring tile)
     {
-        int count = 0;
+        int tileCount = 0;
         for ( int i = 0; i < board.length; i++ )
         {
             for ( int j = 0; j < board[i].length; j++ )
@@ -126,7 +110,7 @@ public class Board
                         if ( board[i][j].getValue() != board[i + 1][j].getValue() //checks the value one to the right
                                 && board[i][j].getValue() != board[i][j + 1].getValue() ) //checks the value one down
                         {
-                            count++; //if values are not the same (i.e. cannot be added) increase the count
+                            tileCount++; //if values are not the same (i.e. cannot be added) increase the count
                         }
                     }
                     else if ( i == 0 && j == 3 ) //this is the same as above, but specific to space (0,3)
@@ -134,7 +118,7 @@ public class Board
                         if ( board[i][j].getValue() != board[i + 1][j].getValue()
                                 && board[i][j].getValue() != board[i][j - 1].getValue() )
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                     else if ( i == 3 && j == 3 ) //see above
@@ -142,7 +126,7 @@ public class Board
                         if ( board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i][j - 1].getValue() )
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                     else if ( i == 3 && j == 0 ) //see above
@@ -150,7 +134,7 @@ public class Board
                         if ( board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i][j + 1].getValue() )
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                     else if ( i == 0 && ( j == 1 || j == 2 ) ) //because the tiles you look at are teh same whether j is 1 or j is 2, they can be combined
@@ -159,7 +143,7 @@ public class Board
                                 && board[i][j].getValue() != board[i][j + 1].getValue() //checks column to the right
                                 && board[i][j].getValue() != board[i][j - 1].getValue() ) //checks column to the left
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                     else if ( i == 3 && ( j == 1 || j == 2 ) ) //see above
@@ -168,7 +152,7 @@ public class Board
                                 && board[i][j].getValue() != board[i][j + 1].getValue()
                                 && board[i][j].getValue() != board[i][j - 1].getValue() )
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                     else if ( j == 0 && ( i == 1 || i == 2 ) ) //see above
@@ -177,7 +161,7 @@ public class Board
                                 && board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i + 1][j].getValue() )
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                     else if ( j == 3 && ( i == 1 || i == 2 ) ) //see above
@@ -186,7 +170,7 @@ public class Board
                                 && board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i + 1][j].getValue() )
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                     else
@@ -196,13 +180,13 @@ public class Board
                                 && board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i + 1][j].getValue() )
                         {
-                            count++;
+                            tileCount++;
                         }
                     }
                 }
             }
         }
-        if (count == 16) //if the count is 16 (meaning that no tile is next to a tile of the same number), return that the game is over
+        if (tileCount == 16) //if the count is 16 (meaning that no tile is next to a tile of the same number), return that the game is over
         {
             return true;
         }
@@ -210,16 +194,16 @@ public class Board
     }
     public void up() //goes through with the w or the up arrow
     {
-        for ( int i = 0; i < grid; i++ ) //basically ensures that this stays within the 4x4 grid
+        for ( int i = 0; i < gameGrid; i++ ) //basically ensures that this stays within the 4x4 grid
         {
-            border = 0; //makes sure that the top row doesn't move (doesn't run the first iteration of the loop)
-            for ( int j = 0; j < grid; j++ )
+            sides = 0; //makes sure that the top row doesn't move (doesn't run the first iteration of the loop)
+            for ( int j = 0; j < gameGrid; j++ )
             {
                 if ( board[j][i].getValue() != 0 ) //for all filled tiles
                 {
-                    if ( border <= j ) //for all rows not at the top
+                    if ( sides <= j ) //for all rows not at the top
                     {
-                        verticalMove( j, i, "up" ); //uses the vertical move method to move every tile with a value up one space
+                        upDownMove( j, i, "up" ); //uses the vertical move method to move every tile with a value up one space
                     }
                 }
             }
@@ -227,65 +211,34 @@ public class Board
     }
     public void down() //goes through with the s key or the down arrow
     {
-        for ( int i = 0; i < grid; i++ )
+        for ( int i = 0; i < gameGrid; i++ )
         {
-            border = ( grid - 1 ); //customizes method for moving everything down (makes sure the bottom row doesn't move down)
-            for ( int j = grid - 1; j >= 0; j-- )
+            sides = ( gameGrid - 1 ); //customizes method for moving everything down (makes sure the bottom row doesn't move down)
+            for ( int j = gameGrid - 1; j >= 0; j-- )
             {
                 if ( board[j][i].getValue() != 0 ) //for all nonempty tiles
                 {
-                    if ( border >= j )
+                    if ( sides >= j )
                     {
-                        verticalMove( j, i, "down" ); //moves everything down
+                        upDownMove( j, i, "down" ); //moves everything down
                     }
                 }
             }
         }
     }
 
-    private void verticalMove( int row, int col, String direction ) //actually executes the up or down movement
-    {
-        Tile initial = board[border][col]; //figures out what column
-        Tile compare = board[row][col]; //compares to another space on the board
-        if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() ) //only runs if one of the tiles is 0 or if they are the same value
-        {
-            if ( row > border || ( direction.equals( "down" ) && ( row < border ) ) )
-            {
-                int addScore = initial.getValue() + compare.getValue();
-                if ( initial.getValue() != 0 )
-                {
-                    score += addScore; //updates score if the tiles have values
-                }
-                initial.setValue( addScore ); //changes the value of the initial box to double if one of the boxes is not zero
-                compare.setValue( 0 ); //gets rid of the other box once added
-            }
-        }
-        else
-        {
-            if (direction.equals( "down" ) ) //if they are not equal or one is not zero, simply move everything down
-            {
-                border--;
-            }
-            else
-            {
-                border++;
-            }
-            verticalMove( row, col, direction );
-        }
-    }
-
     public void left() // called when an "a" or the left arrow is pressed on the keyboard
     {
-        for ( int i = 0; i < grid; i++ )
+        for ( int i = 0; i < gameGrid; i++ )
         {
-            border = 0;
-            for ( int j = 0; j < grid; j++ ) //runs through entire board and shifts all nonzero tiles left
+            sides = 0;
+            for ( int j = 0; j < gameGrid; j++ ) //runs through entire board and shifts all nonzero tiles left
             {
                 if ( board[i][j].getValue() != 0 )
                 {
-                    if ( border <= j )
+                    if ( sides <= j )
                     {
-                        horizontalMove( i, j, "left" ); //horizontal move function, input = left
+                        leftRightMove( i, j, "left" ); //horizontal move function, input = left
                     }
                 }
             }
@@ -294,39 +247,38 @@ public class Board
 
     public void right()  // called when a "d" or the right arrow is pressed on the keyboard
     {
-        for ( int i = 0; i < grid; i++ ) //runs the same way as the left method, but shifts nonzero tiles to the right instead
+        for ( int i = 0; i < gameGrid; i++ ) //runs the same way as the left method, but shifts nonzero tiles to the right instead
         {
-            border = ( grid - 1 );
-            for ( int j = ( grid - 1 ); j >= 0; j-- )
+            sides = ( gameGrid - 1 );
+            for ( int j = ( gameGrid - 1 ); j >= 0; j-- )
             {
                 if ( board[i][j].getValue() != 0 )
                 {
-                    if ( border >= j )
+                    if ( sides >= j )
                     {
-                        horizontalMove( i, j, "right" );
+                        leftRightMove( i, j, "right" );
                     }
                 }
             }
         }
     }
 
-
     // compare the values of two tiles
     // if the values of the tiles are the same or if the value of one of the tiles is
     // equal to 0 (signifying a plain tile), then the values of the tiles are added
     // moves the tiles in the appropriate direction (left or right)
-    private void horizontalMove( int row, int col, String direction ) //takes in location and direction of shift
+    private void leftRightMove( int row, int column, String direction ) //takes in location and direction of shift
     {
-        Tile initial = board[row][border];
-        Tile compare = board[row][col];
+        Tile initial = board[row][sides];
+        Tile compare = board[row][column];
         if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() ) //if the initial tile is a zero or is the same as the one it is compared to
         {
-            if ( col > border || ( direction.equals( "right" ) && ( col < border ) ) )
+            if ( column > sides || ( direction.equals( "right" ) && ( column < sides ) ) )
             {
                 int addScore = initial.getValue() + compare.getValue();
                 if ( initial.getValue() != 0 )
                 {
-                    score += addScore; //add scores
+                    totalScore += addScore; //add scores
                 }
                 initial.setValue( addScore );
                 compare.setValue( 0 ); //essentially gets rid of the other tile
@@ -336,13 +288,46 @@ public class Board
         {
             if ( direction.equals( "right" ) )
             {
-                border--;
+                sides--;
             }
             else
             {
-                border++;
+                sides++;
             }
-            horizontalMove( row, col, direction );
+            leftRightMove( row, column, direction );
         }
     }
+
+
+    private void upDownMove( int row, int column, String direction ) //actually executes the up or down movement
+    {
+        Tile initial = board[sides][column]; //figures out what column
+        Tile compare = board[row][column]; //compares to another space on the board
+        if ( initial.getValue() == 0 || initial.getValue() == compare.getValue() ) //only runs if one of the tiles is 0 or if they are the same value
+        {
+            if ( row > sides || ( direction.equals( "down" ) && ( row < sides ) ) )
+            {
+                int addScore = initial.getValue() + compare.getValue();
+                if ( initial.getValue() != 0 )
+                {
+                    totalScore += addScore; //updates score if the tiles have values
+                }
+                initial.setValue( addScore ); //changes the value of the initial box to double if one of the boxes is not zero
+                compare.setValue( 0 ); //gets rid of the other box once added
+            }
+        }
+        else
+        {
+            if (direction.equals( "down" ) ) //if they are not equal or one is not zero, simply move everything down
+            {
+                sides--;
+            }
+            else
+            {
+                sides++;
+            }
+            upDownMove( row, column, direction );
+        }
+    }
+
 }

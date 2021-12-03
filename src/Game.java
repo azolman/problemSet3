@@ -24,11 +24,10 @@ public class Game extends JPanel implements KeyListener
         setUp();
     }
     // static variables
-    Board game = new Board();
+    Board board = new Board();
     static Game newGame = new Game();
     // JFrame is needed to create the canvas without using stdDraw
     static JFrame frame = new JFrame( "2048" );
-    String gameBoard = game.toString();
 
     // sets up the graphics
     // sets up the key listener
@@ -46,37 +45,33 @@ public class Game extends JPanel implements KeyListener
     {
         if ( user.getKeyChar() == 'w' || user.getKeyCode() == KeyEvent.VK_UP ) //if w or up is pressed
         {
-            game.up(); //move game board up
-            game.spawn(); //add new tiles
-            gameBoard = game.toString(); //converts everything to strings so the numbers can be added
+            board.up(); //move game board up
+            board.addTile(); //add new tiles
             frame.repaint(); //repaints the game board, updated with changes
         }
         else if ( user.getKeyChar() == 's' || user.getKeyCode() == KeyEvent.VK_DOWN ) //functions identically to above function, but moves game board down
         {
-            game.down();
-            game.spawn();
-            gameBoard = game.toString();
+            board.down();
+            board.addTile();
             frame.repaint();
         }
         else if ( user.getKeyChar() == 'a' || user.getKeyCode() == KeyEvent.VK_LEFT ) //same as above, game board goes left
         {
-            game.left();
-            game.spawn();
-            gameBoard = game.toString();
+            board.left();
+            board.addTile();
             frame.repaint();
         }
         else if ( user.getKeyChar() == 'd' || user.getKeyCode() == KeyEvent.VK_RIGHT ) //same as above, game board goes right
         {
-            game.right();
-            game.spawn();
-            gameBoard = game.toString();
+            board.right();
+            board.addTile();
             frame.repaint();
         }
         else if ( user.getKeyCode() == KeyEvent.VK_ENTER ) //restarts the game if the user hits enter
         {
-            game = new Board(); //removes all old tiles
-            game.spawn(); //spawns 1 new tile
-            game.spawn(); //spawns a second new tile
+            board = new Board(); //removes all old tiles
+            board.addTile(); //spawns 1 new tile
+            board.addTile(); //spawns a second new tile
             frame.repaint(); //repaints board
         }
         else if ( user.getKeyCode() == KeyEvent.VK_ESCAPE ) { //if the user presses escape, the game closes
@@ -103,10 +98,10 @@ public class Game extends JPanel implements KeyListener
         super.paint(g1); //super references the parent class
         Graphics2D g2 = (Graphics2D) g1; //creates a new graphics object g2 using g1
         g2.drawString( "2048", 250, 20 ); //adding the text to the board
-        g2.drawString("Score: " + game.getScore(),200 - 4 * String.valueOf(game.getScore()).length(),40); //updates as the player makes move to display score
-        g2.drawString("Highest Tile: " + game.getHighTile(),280 - 4 * String.valueOf(game.getHighTile()).length(),40); //updates if there is a new max
+        g2.drawString("Score: " + board.getScore(),200 - 4 * String.valueOf(board.getScore()).length(),40); //updates as the player makes move to display score
+        g2.drawString("Highest Tile: " + board.getHighTile(),280 - 4 * String.valueOf(board.getHighTile()).length(),40); //updates if there is a new max
         //If statement that informs player that they have reached 2048, but can still continue.
-        if (game.getHighTile() >= 2048) {
+        if (board.getHighTile() >= 2048) {
             g2.drawString("Congratulations!", 435, 90);
             g2.drawString("You reached 2048!", 429, 110);
             g2.drawString("Press 'Escape' to exit", 423, 130);
@@ -115,7 +110,7 @@ public class Game extends JPanel implements KeyListener
         }
         g2.drawString( "Press 'Enter' to Start", 210, 315 );
         g2.drawString( "Use 'wasd' or Arrow Keys to move", 159, 335 );
-        if (game.fullBoard()) //if every tile on the board is full, prompts the user to restart but does NOT end the game
+        if (board.fullBoard()) //if every tile on the board is full, prompts the user to restart but does NOT end the game
         {
             g2.drawString( "Press 'Enter' to restart", 200, 355 );
         }
@@ -125,10 +120,10 @@ public class Game extends JPanel implements KeyListener
         {
             for (int j = 0; j < 4; j++)
             {
-                drawTiles(g1, game.board[i][j], j * 60 + 150, i * 60 + 60 );
+                drawTiles(g1, board.board[i][j], j * 60 + 150, i * 60 + 60 );
             }
         }
-        if (game.gameOver()) //if the game ends (i.e. user has no more available moves) this runs
+        if (board.gameOver()) //if the game ends (i.e. user has no more available moves) this runs
         {
             g2.setColor(Color.gray);
             g2.fillRect( 140, 50, 250, 250);
