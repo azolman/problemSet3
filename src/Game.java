@@ -12,6 +12,8 @@ import javax.swing.JPanel;
  * This game assumes a nice user who is taking time to make each move, as pressing the buttons too quickly for
  * a long enough period of time will result in the game freezing.
  *
+ * Our base code was the paint() method for graphics purposes.
+ *
  * @Hanna Vaidya, @Allison Tesh, @Alexandra Zolman
  */
 
@@ -35,9 +37,12 @@ public class Game extends JPanel implements KeyListener
     {
         frame.addKeyListener( newGame );
         frame.getContentPane().add( newGame );
-        frame.setSize( 600, 425 ); //size of whole screen (game board + any empty space/text)
-        frame.setVisible( true ); //actually makes everything appear
-        frame.setResizable( false ); //prevents user from changing size of canvas
+        //size of whole screen (game board + any empty space/text)
+        frame.setSize( 600, 425 );
+        //actually makes everything appear
+        frame.setVisible( true );
+        //prevents user from changing size of canvas
+        frame.setResizable( false );
     }
 
     /**
@@ -45,40 +50,47 @@ public class Game extends JPanel implements KeyListener
      *
      * @param user represents the key that the user presses
      */
+
     public void keyPressed( KeyEvent user )
     {
-        if ( user.getKeyChar() == 'w' || user.getKeyCode() == KeyEvent.VK_UP ) //if w or up is pressed
+        //if w or up is pressed
+        if ( user.getKeyChar() == 'w' || user.getKeyCode() == KeyEvent.VK_UP )
         {
             board.up(); //move game board up
             board.addTile(); //add new tiles
             frame.repaint(); //repaints the game board, updated with changes
         }
-        else if ( user.getKeyChar() == 's' || user.getKeyCode() == KeyEvent.VK_DOWN ) //functions identically to above function, but moves game board down
+        //if s or down is pressed
+        else if ( user.getKeyChar() == 's' || user.getKeyCode() == KeyEvent.VK_DOWN )
         {
             board.down();
             board.addTile();
             frame.repaint();
         }
-        else if ( user.getKeyChar() == 'a' || user.getKeyCode() == KeyEvent.VK_LEFT ) //same as above, game board goes left
+        // if a or left is pressed
+        else if ( user.getKeyChar() == 'a' || user.getKeyCode() == KeyEvent.VK_LEFT )
         {
             board.left();
             board.addTile();
             frame.repaint();
         }
-        else if ( user.getKeyChar() == 'd' || user.getKeyCode() == KeyEvent.VK_RIGHT ) //same as above, game board goes right
+        // if d or right is pressed
+        else if ( user.getKeyChar() == 'd' || user.getKeyCode() == KeyEvent.VK_RIGHT )
         {
             board.right();
             board.addTile();
             frame.repaint();
         }
-        else if ( user.getKeyCode() == KeyEvent.VK_ENTER ) //restarts the game if the user hits enter
+        //restarts the game if the user hits enter
+        else if ( user.getKeyCode() == KeyEvent.VK_ENTER )
         {
             board = new Board(); //removes all old tiles
             board.addTile(); //spawns 1 new tile
             board.addTile(); //spawns a second new tile
             frame.repaint(); //repaints board
         }
-        else if ( user.getKeyCode() == KeyEvent.VK_ESCAPE ) { //if the user presses escape, the game closes
+        //if the user presses escape, the game closes
+        else if ( user.getKeyCode() == KeyEvent.VK_ESCAPE ) {
             System.exit(0);
         }
     }
@@ -104,7 +116,6 @@ public class Game extends JPanel implements KeyListener
    {
         // method needed, but no additional code needed
    }
-
     /**
      * paint() draws the entire board
      * this was the base code for the project, but we also added some things to this
@@ -113,11 +124,16 @@ public class Game extends JPanel implements KeyListener
      */
     public void paint(Graphics g1) //takes in a graphics object g1
     {
-        super.paint(g1); //super references the parent class
-        Graphics2D g2 = (Graphics2D) g1; //creates a new graphics object g2 using g1
-        g2.drawString( "2048", 250, 20 ); //adding the text to the board
-        g2.drawString("Score: " + board.getScore(),200 - 4 * String.valueOf(board.getScore()).length(),40); //updates as the player makes move to display score
-        g2.drawString("Highest Tile: " + board.getHighTile(),280 - 4 * String.valueOf(board.getHighTile()).length(),40); //updates if there is a new max
+        //super references the parent class
+        super.paint(g1);
+        //creates a new graphics object g2 using g1
+        Graphics2D g2 = (Graphics2D) g1;
+        //adding the text to the board
+        g2.drawString( "2048", 250, 20 );
+        //updates as the player makes move to display score
+        g2.drawString("Score: " + board.getScore(),200 - 4 * String.valueOf(board.getScore()).length(),40);
+        //updates if there is a new max
+        g2.drawString("Highest Tile: " + board.getHighTile(),280 - 4 * String.valueOf(board.getHighTile()).length(),40);
         //If statement that informs player that they have reached 2048, but can still continue.
         if (board.getHighTile() >= 2048) {
             g2.drawString("Congratulations!", 435, 90);
@@ -159,7 +175,6 @@ public class Game extends JPanel implements KeyListener
             g2.drawString( "Press 'Escape' to quit", 200, 375 ); //shows user how to exit if they don't wish to play longer
         }
     }
-
     /**
      * drawTiles() draws each individual tile
      *
