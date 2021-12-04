@@ -130,6 +130,8 @@ public class Board
      */
     public boolean gameOver()
     {
+        // if tile count reaches 16, game is over because that means that the board is
+        // full and none of the adjacent tiles can be added together because they are all different
         int tileCount = 0;
         for ( int i = 0; i < board.length; i++ )
         {
@@ -137,7 +139,11 @@ public class Board
             {
                 if ( board[i][j].getValue() > 0 ) //for all spaces, if there is a tile there...
                 {
-                    if ( i == 0 && j == 0 ) //basically this runs through all the tile locations (in this case at (0,0))  and checks if the values can be added together
+                    //basically this runs through all the tile locations (in this case at (0,0))
+                    // and checks if the values can be added together
+                    //if not, it will count as an additional tile space
+                    if ( i == 0 && j == 0 )
+
                     {
                         if ( board[i][j].getValue() != board[i + 1][j].getValue() //checks the value one to the right
                                 && board[i][j].getValue() != board[i][j + 1].getValue() ) //checks the value one down
