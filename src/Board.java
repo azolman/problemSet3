@@ -184,20 +184,21 @@ public class Board
                             tileCount++;
                         }
                     }
-                    else if ( i == 3 && ( j == 1 || j == 2 ) ) //see above
-                    {
-                        if ( board[i][j].getValue() != board[i - 1][j].getValue()
-                                && board[i][j].getValue() != board[i][j + 1].getValue()
-                                && board[i][j].getValue() != board[i][j - 1].getValue() )
-                        {
-                            tileCount++;
-                        }
-                    }
+
                     else if ( j == 0 && ( i == 1 || i == 2 ) ) //see above
                     {
                         if ( board[i][j].getValue() != board[i][j + 1].getValue()
                                 && board[i][j].getValue() != board[i - 1][j].getValue()
                                 && board[i][j].getValue() != board[i + 1][j].getValue() )
+                        {
+                            tileCount++;
+                        }
+                    }
+                    else if ( i == 3 && ( j == 1 || j == 2 ) ) //see above
+                    {
+                        if ( board[i][j].getValue() != board[i - 1][j].getValue()
+                                && board[i][j].getValue() != board[i][j + 1].getValue()
+                                && board[i][j].getValue() != board[i][j - 1].getValue() )
                         {
                             tileCount++;
                         }

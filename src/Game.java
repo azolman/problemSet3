@@ -40,8 +40,6 @@ public class Game extends JPanel implements KeyListener
         jframe.setSize( 600, 425 );
         //actually makes everything appear
         jframe.setVisible(true);
-        //prevents user from changing size of canvas
-        jframe.setResizable(false);
         //ends the program if the window is closed
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
