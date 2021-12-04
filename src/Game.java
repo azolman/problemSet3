@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  * This game assumes a nice user who is taking time to make each move, as pressing the buttons too quickly for
  * a long enough period of time will result in the game freezing.
  *
- * Our base code was the paint() method for graphics purposes.
+ * Our base code was the paint() and drawTiles() methods for graphics purposes.
  *
  * @Hanna Vaidya, @Allison Tesh, @Alexandra Zolman
  */
@@ -20,105 +20,35 @@ import javax.swing.JPanel;
 
 public class Game extends JPanel implements KeyListener
 {
+    // static variables
+    // creates new board object (array, size of grid, sides variable, aand score are part of this ADT)
+    Board board = new Board();
+    //creates new game object
+    //only needed for the key listener and content pane
+    static Game game = new Game();
+    // JFrame is needed to create the canvas without using stdDraw
+    static JFrame jframe = new JFrame();
+
+
     // main method: starts the whole game
     public static void main( String[] args ) {
-        setUp();
-    }
-    // static variables
-    Board board = new Board();
-    static Game newGame = new Game();
-    // JFrame is needed to create the canvas without using stdDraw
-    static JFrame frame = new JFrame( "2048" );
-
-    /**
-     * setUp() sets up the graphics and the key listener
-     */
-    public static void setUp()
-    {
-        frame.addKeyListener( newGame );
-        frame.getContentPane().add( newGame );
+        //adding a key listener
+        jframe.addKeyListener(game);
+        //adding a canvas
+        jframe.getContentPane().add(game);
         //size of whole screen (game board + any empty space/text)
-        frame.setSize( 600, 425 );
+        jframe.setSize( 600, 425 );
         //actually makes everything appear
-        frame.setVisible( true );
+        jframe.setVisible(true);
         //prevents user from changing size of canvas
-        frame.setResizable( false );
+        jframe.setResizable(false);
+        //ends the program if the window is closed
+        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    /**
-     * keyPressed() checks to see what keys are pressed
-     *
-     * @param user represents the key that the user presses
-     */
-
-    public void keyPressed( KeyEvent user )
-    {
-        //if w or up is pressed
-        if ( user.getKeyChar() == 'w' || user.getKeyCode() == KeyEvent.VK_UP )
-        {
-            board.up(); //move game board up
-            board.addTile(); //add new tiles
-            frame.repaint(); //repaints the game board, updated with changes
-        }
-        //if s or down is pressed
-        else if ( user.getKeyChar() == 's' || user.getKeyCode() == KeyEvent.VK_DOWN )
-        {
-            board.down();
-            board.addTile();
-            frame.repaint();
-        }
-        // if a or left is pressed
-        else if ( user.getKeyChar() == 'a' || user.getKeyCode() == KeyEvent.VK_LEFT )
-        {
-            board.left();
-            board.addTile();
-            frame.repaint();
-        }
-        // if d or right is pressed
-        else if ( user.getKeyChar() == 'd' || user.getKeyCode() == KeyEvent.VK_RIGHT )
-        {
-            board.right();
-            board.addTile();
-            frame.repaint();
-        }
-        //restarts the game if the user hits enter
-        else if ( user.getKeyCode() == KeyEvent.VK_ENTER )
-        {
-            board = new Board(); //removes all old tiles
-            board.addTile(); //spawns 1 new tile
-            board.addTile(); //spawns a second new tile
-            frame.repaint(); //repaints board
-        }
-        //if the user presses escape, the game closes
-        else if ( user.getKeyCode() == KeyEvent.VK_ESCAPE ) {
-            System.exit(0);
-        }
-    }
-
-    /**
-     * keyReleased() is needed for the key listener to run correctly
-     *
-     * @param user represents the key that the user presses
-     */
-    @Override
-  public void keyReleased( KeyEvent user ) //checks if the key has been released
-   {
-         // method needed, but no additional code needed
-   }
-
-    /**
-     * keyTyped() is needed for the key listener to run correctly
-     *
-     * @param user represents the key that the user presses
-     */
-    @Override
-   public void keyTyped( KeyEvent user ) //checks whether a key has been pressed
-   {
-        // method needed, but no additional code needed
-   }
     /**
      * paint() draws the entire board
-     * this was the base code for the project, but we also added some things to this
+     * this was part 1 of the base code for the project, but we also added some things to this
      *
      * @param g1 is the Graphics object needed to draw everything
      */
@@ -148,7 +78,7 @@ public class Game extends JPanel implements KeyListener
         {
             g2.drawString( "Press 'Enter' to restart", 200, 355 );
         }
-        g2.setColor(Color.gray);
+        g2.setColor(new Color(230, 190, 210 )); //light pink borders
         g2.fillRect(140, 50, 250, 250); //begins drawing the board tiles
         for (int i = 0; i < 4; i++)
         {
@@ -159,7 +89,7 @@ public class Game extends JPanel implements KeyListener
         }
         if (board.gameOver()) //if the game ends (i.e. user has no more available moves) this runs
         {
-            g2.setColor(Color.gray);
+            g2.setColor(new Color(230, 190, 210 )); // light pink borders
             g2.fillRect( 140, 50, 250, 250);
             for (int i = 0; i < 4; i++)
             {
@@ -177,6 +107,7 @@ public class Game extends JPanel implements KeyListener
     }
     /**
      * drawTiles() draws each individual tile
+     * this was part 2 of the base code for this project, and we also added some things to this
      *
      * @param g is the Graphics object needed to draw the tiles
      * @param tile represents the characteristics of the tiles being drawn
@@ -188,7 +119,7 @@ public class Game extends JPanel implements KeyListener
         int tileValue = tile.getValue(); //gets the number on the tile
         int length = String.valueOf( tileValue ).length(); //finds the number of characters on a tile square
         Graphics2D g2 = (Graphics2D)g;
-        g2.setColor( Color.lightGray );
+        g2.setColor(new Color(150, 150, 210 ) ); // purple background for blank tiles
         g2.fillRoundRect( x, y, 50, 50, 5, 5 ); //round rectangle, which is the tile
         if ( tileValue > 0 ) //does not draw anything if the square has no value associated with it
         {
@@ -198,4 +129,77 @@ public class Game extends JPanel implements KeyListener
             g.drawString( "" + tileValue, x + 24 - 3 * length, y + 29 ); //writes on the tile, values are slightly off but take in length to try to even it out
         }
     }
+
+
+    /**
+     * keyPressed() checks to see what keys are pressed
+     *
+     * @param user represents the key that the user presses
+     */
+
+    public void keyPressed( KeyEvent user )
+    {
+        //if w or up is pressed
+        if ( user.getKeyChar() == 'w' || user.getKeyCode() == KeyEvent.VK_UP )
+        {
+            board.up(); //move game board up
+            board.addTile(); //add new tiles
+            jframe.repaint(); //repaints the game board, updated with changes
+        }
+        //if s or down is pressed
+        else if ( user.getKeyChar() == 's' || user.getKeyCode() == KeyEvent.VK_DOWN )
+        {
+            board.down();
+            board.addTile();
+            jframe.repaint();
+        }
+        // if a or left is pressed
+        else if ( user.getKeyChar() == 'a' || user.getKeyCode() == KeyEvent.VK_LEFT )
+        {
+            board.left();
+            board.addTile();
+            jframe.repaint();
+        }
+        // if d or right is pressed
+        else if ( user.getKeyChar() == 'd' || user.getKeyCode() == KeyEvent.VK_RIGHT )
+        {
+            board.right();
+            board.addTile();
+            jframe.repaint();
+        }
+        //restarts the game if the user hits enter
+        else if ( user.getKeyCode() == KeyEvent.VK_ENTER )
+        {
+            board = new Board(); //removes all old tiles
+            board.addTile(); //spawns 1 new tile
+            board.addTile(); //spawns a second new tile
+            jframe.repaint(); //repaints board
+        }
+        //if the user presses escape, the game closes
+        else if ( user.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+            System.exit(0);
+        }
+    }
+
+    /**
+     * keyReleased() is needed for the key listener to run correctly
+     *
+     * @param user represents the key that the user presses
+     */
+    @Override
+  public void keyReleased( KeyEvent user ) //checks if the key has been released
+   {
+         // method needed, but no additional code needed
+   }
+
+    /**
+     * keyTyped() is needed for the key listener to run correctly
+     *
+     * @param user represents the key that the user presses
+     */
+    @Override
+   public void keyTyped( KeyEvent user ) //checks whether a key has been pressed
+   {
+        // method needed, but no additional code needed
+   }
 }

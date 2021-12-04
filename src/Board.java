@@ -9,9 +9,9 @@ import java.util.Random;
 
 public class Board
 {
-    public Tile[][] board; //2D array for board
+    public Tile[][] board; //2D array for board of type Tile (uses both tile value and color as part of this ADT)
     int gameGrid = 4; //used because it's a 4x4 grid
-    int sides = 0; //used for customizing the board movements when moves are made, used to make sure the tiles never move out of the array
+    int sides = 0; // used to make sure the tiles never move out of the array
     public int totalScore = 0; //starts score at 0, is accessed by other methods
 
     /**
